@@ -1,0 +1,32 @@
+Two files are included, both taken from a project working with approximation
+algorithms for planar graphs as part of my most recent research work.
+
+
+
+The first file "interface.h" defines a particular family of dynamic programs which
+was often the final step -- and computational bottleneck -- for the graph algorithms
+that were being implemented in this project. I want to draw particular attention to
+the methods "run_parallel" and "handle_merge" which do much of the work.
+
+The method "run_parallel" uses Intel's Thread Building Block library to allow
+independent sub-problems in the dynamic program to execute in parrallel.
+In particular it uses a flow graph to describe data dependency between sub-problems,
+allowing the main storage to be nothing more than a std:vector.
+
+The method "handle_merge" handles the general case of the dynamic program: using two
+previous results as dependencies, it matches partial solutions for compatibility,
+composes them, and stores the result for later use.
+
+
+
+The second file "mehlhorn_steiner_twoappox.h" implements a simpler algorithm, first
+described in the paper "A Faster Approximation Algorithm for the Steiner Problem in Graphs"
+(Mehlhorn 1988). The algorithm takes a graph and a set of vertices then returns edges that
+form a tree touching each vertex in the input set.
+
+A few technical notes:
+ * Think of "Dart" as "directed edge"
+ * "Table", "NodeSet" and "DartSet" allow constant time lookup and insertion.
+ * "SPTree" is "Shortest Path Tree" computed with a priority queue.
+ * "MST" is "Minimal Spanning Tree" computed with Prim's algorithm.
+
